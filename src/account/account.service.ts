@@ -7,16 +7,23 @@ import { Account } from 'src/entities/account.entity';
 @Injectable()
 export class AccountService {
   constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
-  ) {}
+    @InjectRepository(Account)
+    private accountsRepository: Repository<Account>,
+  ) { }
 
   async all(userId: string): Promise<Account[]> {
-    const user: User | null = await this.usersRepository.findOneBy({
-      id: userId,
-    });
-    if (user === null) return [];
+    return this.accountsRepository
+      .createQueryBuilder('account')
+      .innerJoin('account.user', 'user')
+      .where({ user: { id: userId } })
+      .getMany();
+  }
 
-    return user.accounts;
+  async one(userId: string, id: string): Promise<Account | null> {
+    return this.accountsRepository
+      .createQueryBuilder('account')
+      .innerJoin('account.user', 'user')
+      .where({ id: id, user: { id: userId } })
+      .getOne();
   }
 }

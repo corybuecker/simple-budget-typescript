@@ -1,5 +1,8 @@
-{{#each accounts}}
-<div class="text-xl">
-  {{name}}
+<div class="flex flex-col">
+  {{#each accounts}}
+  <div class="text-xl">
+    {{name}}
+    <a href="/accounts/{{id}}/edit">Edit</a>
+  </div>
+  {{/each}}
 </div>
-{{/each}}

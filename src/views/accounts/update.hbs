@@ -1,0 +1,14 @@
+<turbo-stream action="replace" target="account_{{id}}">
+  <template>
+    <div class="flex flex-col" id="account_{{id}}">
+      {{#with account}}
+      <div class="text-xl">
+        <form action="/accounts/{{id}}" method="put">
+          Frehs
+          <button class="border" type="submit">Save</button>
+        </form>
+      </div>
+      {{/with}}
+    </div>
+  </template>
+</turbo-stream>

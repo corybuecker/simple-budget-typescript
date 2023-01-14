@@ -517,9 +517,12 @@ video {
   display: flex;
 }
 
-.text-2xl {
-  font-size: 1.5rem;
-  line-height: 2rem;
+.flex-col {
+  flex-direction: column;
+}
+
+.border {
+  border-width: 1px;
 }
 
 .text-xl {
