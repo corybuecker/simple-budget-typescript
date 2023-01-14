@@ -1,7 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { User } from './user.entity';
+import { IAccount } from 'src/account/account.interface';
 @Entity()
-export class Account {
+export class Account implements IAccount {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -11,6 +12,6 @@ export class Account {
   @Column()
   amount: number;
 
-  @Column()
-  userId: string;
+  @ManyToOne(() => User, (user: User) => user.accounts)
+  user: Promise<User>;
 }

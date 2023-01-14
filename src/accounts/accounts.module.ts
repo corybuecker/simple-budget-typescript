@@ -9,4 +9,4 @@ import { User } from 'src/entities/user.entity';
   providers: [AccountService],
   controllers: [AccountsController],
 })
-export class AccountsModule { }
+export class AccountsModule {}

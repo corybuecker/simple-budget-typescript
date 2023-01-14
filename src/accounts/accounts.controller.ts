@@ -7,7 +7,11 @@ export class AccountsController {
 
   @Get()
   @Render('accounts/index')
-  index(): Object {
-    return { temp: 'Cory' };
+  async index(): Promise<Object> {
+    return {
+      accounts: await this.accountService.all(
+        'f70d027f-1250-4ac4-af80-eb3e7a98a8c3',
+      ),
+    };
   }
 }

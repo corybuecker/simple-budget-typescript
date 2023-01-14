@@ -16,6 +16,7 @@ import { UsersService } from './users/users.service';
       password: '',
       database: 'simple_budget',
       autoLoadEntities: true,
+      logging: true,
     }),
     AccountsModule,
     UsersModule,
