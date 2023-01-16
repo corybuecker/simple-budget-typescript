@@ -1,15 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/entities/user.entity';
-import { Account } from 'src/entities/account.entity';
-
+import { Account } from 'src/accounts/account.entity';
+import AccountDto from 'src/accounts/account.dto';
 @Injectable()
-export class AccountService {
+export default class AccountService {
   constructor(
     @InjectRepository(Account)
     private accountsRepository: Repository<Account>,
-  ) { }
+  ) {}
 
   async all(userId: string): Promise<Account[]> {
     return this.accountsRepository
@@ -25,5 +24,13 @@ export class AccountService {
       .innerJoin('account.user', 'user')
       .where({ id: id, user: { id: userId } })
       .getOne();
+  }
+
+  async save(accountDto: AccountDto, account: Account): Promise<Account> {
+    account.amount = accountDto.amount;
+    account.debt = accountDto.debt;
+    account.name = accountDto.name;
+
+    return this.accountsRepository.save(account);
   }
 }

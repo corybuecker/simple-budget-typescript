@@ -1,0 +1,12 @@
+<form class="flex" action="/accounts/{{id}}" id="account_{{id}}" method="put">
+  <label for="name">Name</label>
+  <input value="{{name}}" name="name" type="text"></input>
+
+  <label for="amount">Amount</label>
+  <input value="{{amount}}" name="amount" type="number"></input>
+
+  <label for="debt">Debt?</label>
+  <input {{#if debt}} checked {{/if}} name="debt" type="checkbox"></input>
+
+  <button class="border" type="submit">Save</button>
+</form>

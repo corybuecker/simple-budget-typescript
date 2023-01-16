@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { Account } from './account.entity';
+import { Account } from '../accounts/account.entity';
 
 @Entity()
-export class User {
+export default class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

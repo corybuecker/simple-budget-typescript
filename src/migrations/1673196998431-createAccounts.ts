@@ -29,6 +29,12 @@ export class createAccounts1673196998431 implements MigrationInterface {
             type: 'numeric',
             isNullable: false,
           },
+          {
+            name: 'debt',
+            type: 'boolean',
+            isNullable: false,
+            default: false,
+          },
         ],
       }),
     );
