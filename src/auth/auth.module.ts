@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from 'src/users/users.module';
 import { AuthController } from './auth.controller';
-import OidStrategy from './oidc.strategy';
-import OidcClientProvider from './oidc_client.provider';
-import UsersModule from 'src/users/users.module';
-import WebSessionGuard from './session.guard';
-
+import { OidcStrategy } from './oidc.strategy';
+import { OidcClientProvider } from './oidc_client.provider';
+import { Session } from './session.entity';
+import { SessionGuard } from './session.guard';
 @Module({
-  imports: [UsersModule],
-  providers: [OidStrategy, OidcClientProvider, WebSessionGuard],
-  controllers: [AuthController]
+  exports: [TypeOrmModule.forFeature([Session])],
+  imports: [UsersModule, TypeOrmModule.forFeature([Session])],
+  providers: [OidcStrategy, OidcClientProvider, SessionGuard],
+  controllers: [AuthController],
 })
-export class AuthModule { }
+export class AuthModule {}

@@ -1,10 +1,15 @@
-import { ExecutionContext } from "@nestjs/common";
-import { Observable } from "rxjs";
+import { ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { Observable } from 'rxjs';
 
-export default class SessionGuard extends AuthGuard() {
-  canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+export class SessionGuard extends AuthGuard('session') {
+  canActivate(
+    context: ExecutionContext,
+  ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
-    return request.isAuthenticated();
+
+    if (!request.isAuthenticated()) throw new UnauthorizedException();
+
+    return true;
   }
 }

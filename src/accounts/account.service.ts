@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AccountDto } from 'src/accounts/account.dto';
 import { Account } from 'src/accounts/account.entity';
-import AccountDto from 'src/accounts/account.dto';
+import { Repository } from 'typeorm';
+
 @Injectable()
-export default class AccountService {
+export class AccountService {
   constructor(
     @InjectRepository(Account)
     private accountsRepository: Repository<Account>,

@@ -7,7 +7,7 @@ import {
   Min,
 } from 'class-validator';
 
-export default class AccountDto {
+export class AccountDto {
   @IsNotEmpty()
   name: string;
 

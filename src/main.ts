@@ -1,27 +1,14 @@
-import { AppModule } from './app.module';
-import { NestExpressApplication } from '@nestjs/platform-express';
-import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import * as dotenv from 'dotenv';
 import * as hbs from 'hbs';
 import * as passport from 'passport';
-import * as session from 'express-session';
-import hbsHelpers from './hbs_helpers';
-import { AuthUser } from './auth/user';
+import { AppModule } from './app.module';
+import { hbsHelpers } from './hbs_helpers';
 
 async function bootstrap() {
-  if (process.env.COOKIE_SECRET === undefined) throw new Error();
-
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-
-  app.use(
-    session({
-      secret: process.env.COOKIE_SECRET,
-      saveUninitialized: true,
-    }),
-  );
-  app.use(passport.initialize());
-  app.use(passport.session());
 
   app.useStaticAssets('public', {
     immutable: true,
@@ -39,20 +26,16 @@ async function bootstrap() {
 }
 
 hbs.registerHelper('fingerprint', hbsHelpers['fingerprint']);
-hbs.registerPartials('src/views/partials', (): void => { });
+hbs.registerPartials('src/views/partials');
 
 dotenv.config();
 
-passport.serializeUser(function (userId, cb) {
-  process.nextTick(function () {
-    return cb(null, userId);
-  });
+passport.serializeUser(function (userId: string, done) {
+  process.nextTick(() => done(null, userId));
 });
 
-passport.deserializeUser(function (userId, cb) {
-  process.nextTick(function () {
-    return cb(null, new AuthUser(userId as string));
-  });
+passport.deserializeUser((userId: string, done) => {
+  process.nextTick(() => done(null, userId));
 });
 
 bootstrap();

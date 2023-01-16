@@ -1,6 +1,6 @@
 import { Issuer } from 'openid-client';
 
-const OidcClientProvider = {
+export const OidcClientProvider = {
   provide: 'OidcClient',
   useFactory: async () => {
     const issuer: Issuer = await Issuer.discover('https://accounts.google.com');
@@ -11,5 +11,3 @@ const OidcClientProvider = {
     });
   },
 };
-
-export default OidcClientProvider;

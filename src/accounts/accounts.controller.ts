@@ -1,42 +1,44 @@
 import {
+  Body,
   Controller,
   Get,
-  Render,
-  Param,
-  Put,
   Header,
-  Body,
   HttpException,
   HttpStatus,
+  Param,
+  Put,
+  Render,
+  Req,
+  UseFilters,
   UseGuards,
 } from '@nestjs/common';
-
-import WebSessionGuard from 'src/auth/session.guard';
-import AccountService from './account.service';
-import AccountDto from 'src/accounts/account.dto';
+import { Request } from 'express';
+import { AccountDto } from 'src/accounts/account.dto';
 import { Account } from 'src/accounts/account.entity';
+import { AccountService } from 'src/accounts/account.service';
+import { UnauthorizedExceptionFilter } from 'src/auth/exception.filter';
+import { SessionGuard } from 'src/auth/session.guard';
 
-@UseGuards(WebSessionGuard)
+@UseGuards(SessionGuard)
+@UseFilters(UnauthorizedExceptionFilter)
 @Controller('accounts')
 export class AccountsController {
-  constructor(private accountService: AccountService) { }
+  constructor(private accountService: AccountService) {}
 
   @Get()
   @Render('accounts/index')
-  async index(): Promise<Object> {
+  async index(@Req() request: Request): Promise<any> {
     return {
       layout: 'layouts/main',
-      accounts: await this.accountService.all(
-        'f70d027f-1250-4ac4-af80-eb3e7a98a8c3',
-      ),
+      accounts: await this.accountService.all(request.user as string),
     };
   }
 
   @Get(':id/edit')
   @Render('accounts/edit')
-  async edit(@Param('id') id: string): Promise<Object> {
+  async edit(@Req() request: Request, @Param('id') id: string): Promise<any> {
     const account: Account | null = await this.accountService.one(
-      'f70d027f-1250-4ac4-af80-eb3e7a98a8c3',
+      request.user as string,
       id,
     );
 
@@ -55,9 +57,10 @@ export class AccountsController {
   async update(
     @Param('id') id: string,
     @Body() accountDto: AccountDto,
-  ): Promise<Object> {
+    @Req() request: Request,
+  ): Promise<any> {
     const account: Account | null = await this.accountService.one(
-      'f70d027f-1250-4ac4-af80-eb3e7a98a8c3',
+      request.user as string,
       id,
     );
 
@@ -67,6 +70,7 @@ export class AccountsController {
     this.accountService.save(accountDto, account);
 
     return {
+      layout: null,
       account: account,
     };
   }
