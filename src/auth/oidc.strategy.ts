@@ -1,12 +1,32 @@
-import { PassportStrategy } from "@nestjs/passport";
-import { Injectable } from '@nestjs/common';
-import { AuthService } from "./auth.service";
-import { Strategy } from 'openid-client';
-import { OidcClient } from "./oidc_client.provider";
+import { PassportStrategy } from '@nestjs/passport';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import UserService from 'src/users/user.service';
+import { Client, Strategy, TokenSet } from 'openid-client';
+import { BaseClient, UserinfoResponse } from 'openid-client';
+import User from 'src/users/user.entity';
 
 @Injectable()
 export default class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
-  constructor(private authService: AuthService, client: OidcClient) {
-    super({ client })
+  private client: Client;
+  constructor(
+    private userService: UserService,
+    @Inject('OidcClient') client: BaseClient,
+  ) {
+    const params = { scope: 'openid email' };
+    super({ client, params });
+    this.client = client;
+  }
+
+  async validate(token: TokenSet): Promise<User> {
+    const info: UserinfoResponse = await this.client.userinfo(token);
+    const { email, email_verified } = info;
+
+    if (email_verified === false) throw new UnauthorizedException();
+    if (email === undefined) throw new UnauthorizedException();
+
+    const user: User | null = await this.userService.one(email);
+    if (user === null) throw new UnauthorizedException();
+
+    return user;
   }
 }

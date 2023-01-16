@@ -1,9 +1,13 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
 import OidStrategy from './oidc.strategy';
 import OidcClientProvider from './oidc_client.provider';
+import UsersModule from 'src/users/users.module';
+import WebSessionGuard from './session.guard';
 
 @Module({
-  providers: [AuthService, OidStrategy, OidcClientProvider],
+  imports: [UsersModule],
+  providers: [OidStrategy, OidcClientProvider, WebSessionGuard],
+  controllers: [AuthController]
 })
 export class AuthModule { }

@@ -8,19 +8,19 @@ import {
   Body,
   HttpException,
   HttpStatus,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 
+import WebSessionGuard from 'src/auth/session.guard';
 import AccountService from './account.service';
 import AccountDto from 'src/accounts/account.dto';
 import { Account } from 'src/accounts/account.entity';
 
+@UseGuards(WebSessionGuard)
 @Controller('accounts')
 export class AccountsController {
   constructor(private accountService: AccountService) { }
 
-  @UseGuards(AuthGuard('oidc'))
   @Get()
   @Render('accounts/index')
   async index(): Promise<Object> {

@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AccountsModule } from './accounts/accounts.module';
-import { UsersModule } from './users/users.module';
+import UsersModule from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -25,4 +25,4 @@ import { AuthModule } from './auth/auth.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
