@@ -1,16 +1,27 @@
-import { Controller, Get, Render, UseFilters, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Render,
+  Req,
+  UseFilters,
+  UseGuards,
+} from '@nestjs/common';
+import { Request } from 'express';
 import { UnauthorizedExceptionFilter } from 'src/auth/exception.filter';
 import { SessionGuard } from 'src/auth/session.guard';
+import { SavingsService } from './savings.service';
 
 @UseGuards(SessionGuard)
 @UseFilters(UnauthorizedExceptionFilter)
 @Controller('savings')
 export class SavingsController {
+  constructor(private savingsService: SavingsService) {}
+
   @Get()
   @Render('savings/index')
-  public index() {
+  public async index(@Req() req: Request) {
     return {
-      savings: [],
+      savings: await this.savingsService.all(req.user as string),
       layout: 'layouts/main',
     };
   }

@@ -20,8 +20,9 @@ export class SessionMiddleware implements NestMiddleware {
 
     const sessionMiddleware = session({
       secret: process.env.COOKIE_SECRET,
-      saveUninitialized: true,
-      resave: false,
+      saveUninitialized: false,
+      resave: true,
+
       store: new TypeormStore().connect(this.sessionRepository),
     });
 
