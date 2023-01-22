@@ -1,12 +1,17 @@
-import { PassportStrategy } from '@nestjs/passport';
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import UserService from 'src/users/user.service';
-import { Client, Strategy, TokenSet } from 'openid-client';
-import { BaseClient, UserinfoResponse } from 'openid-client';
-import User from 'src/users/user.entity';
+import { PassportStrategy } from '@nestjs/passport';
+import {
+  BaseClient,
+  Client,
+  Strategy,
+  TokenSet,
+  UserinfoResponse,
+} from 'openid-client';
+import { User } from 'src/users/user.entity';
+import { UserService } from 'src/users/user.service';
 
 @Injectable()
-export default class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
+export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
   private client: Client;
   constructor(
     private userService: UserService,

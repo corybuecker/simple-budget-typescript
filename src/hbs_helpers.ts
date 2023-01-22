@@ -1,8 +1,8 @@
-import * as path from 'path';
 import * as fs from 'fs';
 import { createHash } from 'node:crypto';
+import * as path from 'path';
 
-const hbsHelpers = {
+export const hbsHelpers = {
   fingerprint: (fileName: string): string => {
     const asset: string = path.join('./public', fileName);
     const contents: string = fs.readFileSync(asset.toString(), {
@@ -14,5 +14,3 @@ const hbsHelpers = {
     return hash.digest('hex');
   },
 };
-
-export default hbsHelpers;

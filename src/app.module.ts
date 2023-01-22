@@ -1,28 +1,27 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AccountsModule } from './accounts/accounts.module';
-import UsersModule from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { connectionOptions } from './data-source';
+import { SavingsModule } from './savings/savings.module';
+import { SessionMiddleware } from './session.middleware';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: '',
-      database: 'simple_budget',
+      ...connectionOptions,
       autoLoadEntities: true,
       logging: true,
     }),
     AccountsModule,
     UsersModule,
     AuthModule,
+    SavingsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(SessionMiddleware).forRoutes('*');
+  }
+}

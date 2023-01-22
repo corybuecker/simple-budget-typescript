@@ -1,24 +1,25 @@
 import {
   Controller,
   Get,
+  Req,
+  Res,
+  UnauthorizedException,
   UseGuards,
-  Request,
-  Response
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { Request as TRequest, Response as TResponse } from 'express';
-import User from 'src/users/user.entity';
+import { Request, Response } from 'express';
+import { User } from 'src/users/user.entity';
 @Controller('auth')
 export class AuthController {
   @UseGuards(AuthGuard('oidc'))
   @Get('callback')
-  callback(@Request() req: TRequest, @Response() res: TResponse) {
-    if (!req.user) throw new Error()
-    const user: User = req.user as User
+  callback(@Req() req: Request, @Res() res: Response) {
+    if (!req.user) throw new UnauthorizedException();
 
-    req.login(user.id, function (err) {
-      console.log(err)
-      return res.send(req.user)
+    const user: User = req.user as User;
+
+    req.login(user.id, function () {
+      return res.redirect('/accounts');
     });
   }
 }
