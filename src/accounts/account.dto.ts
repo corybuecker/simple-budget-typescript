@@ -11,10 +11,9 @@ export class AccountDto {
   @IsNotEmpty()
   name: string;
 
-  @IsNotEmpty()
+  @Type(() => Number)
   @IsNumber()
   @Min(0)
-  @Type(() => Number)
   amount: number;
 
   @IsOptional()

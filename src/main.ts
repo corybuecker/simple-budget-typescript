@@ -1,4 +1,3 @@
-import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as dotenv from 'dotenv';
@@ -30,10 +29,6 @@ async function bootstrap() {
 
   app.setViewEngine('hbs');
   app.setBaseViewsDir('src/views');
-
-  app.useGlobalPipes(
-    new ValidationPipe({ forbidNonWhitelisted: true, transform: true }),
-  );
 
   await app.listen(3000);
 }

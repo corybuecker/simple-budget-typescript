@@ -12,6 +12,7 @@ import {
   Req,
   UseFilters,
   UseGuards,
+  UsePipes,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { AccountDto } from 'src/accounts/account.dto';
@@ -19,6 +20,7 @@ import { AccountService } from 'src/accounts/account.service';
 import { UnauthorizedExceptionFilter } from 'src/auth/exception.filter';
 import { SessionGuard } from 'src/auth/session.guard';
 import { Account } from 'src/entities/account';
+import { ValidationPipe } from '@nestjs/common';
 
 type AccountsT = {
   layout: string | null;
@@ -28,6 +30,7 @@ type AccountsT = {
 
 @UseGuards(SessionGuard)
 @UseFilters(UnauthorizedExceptionFilter)
+@UsePipes(new ValidationPipe({ forbidNonWhitelisted: true, transform: true }))
 @Controller('accounts')
 export class AccountsController {
   constructor(private accountService: AccountService) {}

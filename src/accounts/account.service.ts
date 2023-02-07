@@ -27,7 +27,7 @@ export class AccountService {
     return this.accountsRepository
       .createQueryBuilder('account')
       .innerJoin('account.user', 'user')
-      .where('user.id = :userId AND id = :id', { userId, id })
+      .where('user.id = :userId AND account.id = :id', { userId, id })
       .getOne();
   }
 
