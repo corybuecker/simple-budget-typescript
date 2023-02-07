@@ -7,6 +7,19 @@ import * as passport from 'passport';
 import { AppModule } from './app.module';
 import { hbsHelpers } from './hbs_helpers';
 
+dotenv.config();
+
+hbs.registerHelper('fingerprint', hbsHelpers['fingerprint']);
+hbs.registerPartials('src/views/partials');
+
+passport.serializeUser(function (userId: string, done) {
+  process.nextTick(() => done(null, userId));
+});
+
+passport.deserializeUser((userId: string, done) => {
+  process.nextTick(() => done(null, userId));
+});
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
@@ -24,18 +37,5 @@ async function bootstrap() {
 
   await app.listen(3000);
 }
-
-hbs.registerHelper('fingerprint', hbsHelpers['fingerprint']);
-hbs.registerPartials('src/views/partials');
-
-dotenv.config();
-
-passport.serializeUser(function (userId: string, done) {
-  process.nextTick(() => done(null, userId));
-});
-
-passport.deserializeUser((userId: string, done) => {
-  process.nextTick(() => done(null, userId));
-});
 
 bootstrap();

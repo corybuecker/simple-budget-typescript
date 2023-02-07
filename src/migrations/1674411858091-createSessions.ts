@@ -1,7 +1,7 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableIndex } from 'typeorm';
 export class createSessions1674411858091 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    return queryRunner.createTable(
+    await queryRunner.createTable(
       new Table({
         name: 'session',
         columns: [
@@ -30,6 +30,10 @@ export class createSessions1674411858091 implements MigrationInterface {
           },
         ],
       }),
+    );
+    return queryRunner.createIndex(
+      'session',
+      new TableIndex({ columnNames: ['expiredAt'] }),
     );
   }
 
