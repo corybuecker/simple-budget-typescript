@@ -5,7 +5,8 @@ import { NextFunction, Request, Response } from 'express';
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { Repository } from 'typeorm';
-import { Session } from './auth/session.entity';
+import { Session } from '../entities/session';
+
 @Injectable()
 export class SessionMiddleware implements NestMiddleware {
   constructor(
