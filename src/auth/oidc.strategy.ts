@@ -7,7 +7,7 @@ import {
   TokenSet,
   UserinfoResponse,
 } from 'openid-client';
-import { User } from 'src/users/user.entity';
+import { User } from 'src/entities/user';
 import { UserService } from 'src/users/user.service';
 
 @Injectable()

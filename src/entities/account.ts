@@ -1,4 +1,4 @@
-import { User } from 'src/users/user.entity';
+import { User } from 'src/entities/user';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -14,6 +14,9 @@ export class Account {
 
   @Column({ default: false })
   debt: boolean;
+
+  @Column({ nullable: false })
+  userId: string;
 
   @ManyToOne(() => User, (user: User) => user.accounts)
   user: Promise<User>;

@@ -1,4 +1,8 @@
+{{#if id}}
 <form class="flex" action="/accounts/{{id}}" id="account_{{id}}" method="put">
+{{else}}
+<form class="flex" action="/accounts" method="post">
+{{/if}}
   <label for="name">Name</label>
   <input value="{{name}}" name="name" type="text"></input>
 

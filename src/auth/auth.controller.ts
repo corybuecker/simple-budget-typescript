@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Request, Response } from 'express';
-import { User } from 'src/users/user.entity';
+import { User } from 'src/entities/user';
 @Controller('auth')
 export class AuthController {
   @UseGuards(AuthGuard('oidc'))

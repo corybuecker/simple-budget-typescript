@@ -3,8 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AccountsModule } from './accounts/accounts.module';
 import { AuthModule } from './auth/auth.module';
 import { connectionOptions } from './data-source';
+import { SessionMiddleware } from './middleware/session';
 import { SavingsModule } from './savings/savings.module';
-import { SessionMiddleware } from './session.middleware';
 import { UsersModule } from './users/users.module';
 
 @Module({
