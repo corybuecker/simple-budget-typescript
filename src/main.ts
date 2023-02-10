@@ -20,7 +20,7 @@ passport.deserializeUser((userId: string, done) => {
 });
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {logger: ['log', 'error', 'warn', 'debug', 'verbose']});
 
   app.useStaticAssets('public', {
     immutable: true,

@@ -6,13 +6,12 @@ import { connectionOptions } from './data-source';
 import { SessionMiddleware } from './middleware/session';
 import { SavingsModule } from './savings/savings.module';
 import { UsersModule } from './users/users.module';
-
+import { LoggingMiddleware } from './middleware/logging';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       ...connectionOptions,
-      autoLoadEntities: true,
-      logging: true,
+      autoLoadEntities: true
     }),
     AccountsModule,
     UsersModule,
@@ -22,6 +21,6 @@ import { UsersModule } from './users/users.module';
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(SessionMiddleware).forRoutes('*');
+    consumer.apply(LoggingMiddleware,SessionMiddleware).forRoutes('*');
   }
 }
