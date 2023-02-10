@@ -7,8 +7,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { UnauthorizedExceptionFilter } from 'src/auth/exception.filter';
-import { SessionGuard } from 'src/auth/session.guard';
+import { UnauthorizedExceptionFilter } from '../auth/exception.filter';
+import { SessionGuard } from '../auth/session.guard';
 import { SavingsService } from './savings.service';
 
 @UseGuards(SessionGuard)

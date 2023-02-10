@@ -1,6 +1,6 @@
-import { Saving } from 'src/savings/saving';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Account } from './account';
+import { Saving } from './saving';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')

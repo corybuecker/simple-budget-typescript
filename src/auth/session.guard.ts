@@ -8,8 +8,8 @@ export class SessionGuard extends AuthGuard('session') {
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
 
-    if (!request.isAuthenticated()) throw new UnauthorizedException();
+    if (request.isAuthenticated() === true) return true;
 
-    return true;
+    throw new UnauthorizedException();
   }
 }
